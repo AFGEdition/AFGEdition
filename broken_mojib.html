@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NeoGoogle - broken mojib</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+      font-family: monospace;
+      color: #00ff00;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      filter: drop-shadow(0 0 6px #0f0);
+    }
+
+    .content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 1;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 40px 60px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px #00ff00aa;
+      user-select: none;
+      min-width: 400px;
+    }
+
+    h1 {
+      font-size: 5em;
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px #0f0, 0 0 40px #0f0;
+      user-select: text;
+    }
+
+    h2 {
+      font-size: 3em;
+      margin-bottom: 40px;
+      text-shadow: 0 0 15px #0f0, 0 0 30px #0f0;
+      user-select: text;
+    }
+
+    .search-box {
+      background-color: black;
+      border: 2px solid #0f0;
+      color: #0f0;
+      padding: 18px;
+      width: 90%;
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px #0f0;
+      transition: border-color 0.3s ease;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: #00ff00ee;
+      box-shadow: 0 0 25px #00ff00ee;
+    }
+
+    button {
+      background-color: #0f0;
+      color: black;
+      padding: 15px 40px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 30px;
+      font-size: 22px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #0f0;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #00ff00cc;
+      transform: scale(1.05);
+      box-shadow: 0 0 30px #0f0;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+  <div class="content">
+    <h1>NeoGoogle</h1>
+    <h2>Welcome, broken mojib</h2>
+    <input class="search-box" type="text" id="query" placeholder="Enter the cyber world..." />
+    <br />
+    <button onclick="search()">Search</button>
+  </div>
+
+  <script>
+    // Matrix animation effect
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+      columns = Math.floor(canvas.width / fontSize);
+      drops = Array(columns).fill(1);
+    }
+
+    const letters = '01';
+    const fontSize = 16;
+    let columns = Math.floor(window.innerWidth / fontSize);
+    let drops = Array(columns).fill(1);
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#0F0';
+      ctx.font = fontSize + 'px monospace';
+      ctx.shadowColor = '#0f0';
+      ctx.shadowBlur = 8;
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+
+        drops[i]++;
+      }
+    }
+
+    setInterval(drawMatrix, 33);
+
+    function search() {
+      const query = document.getElementById('query').value;
+      if (query.trim()) {
+        window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+      }
+    }
+  </script>
+</body>
+</html>
